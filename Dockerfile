@@ -43,11 +43,9 @@ RUN yum install -y epel-release git; \
     git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
-# clone CaPTk and LFS files
-RUN git clone https://github.com/CBICA/CaPTk.git
+# download relevant files
+RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O precompiledApps.zip
 
-RUN cd CaPTk; \
-    git-lfs pull --include "binaries/precompiledApps/linux.zip"; \
-    git-lfs pull --include "binaries/qt_5.12.1/linux.zip"
+RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O precompiledApps.zip
 
 ENTRYPOINT [ "/bin/bash" ]
