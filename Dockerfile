@@ -5,7 +5,8 @@ LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 #update
 RUN yum update -y
 
-RUN yum install centos-release-scl-rh
+RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
+    yum -y install centos-release-scl
 
 #general dependencies
 RUN yum install -y \
