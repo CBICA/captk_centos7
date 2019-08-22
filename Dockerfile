@@ -9,6 +9,7 @@ RUN yum install centos-release-scl-rh
 
 #general dependencies
 RUN yum install -y \
+    yum-utils \
     devtoolset-6 \
     wget \
     cmake \
@@ -24,7 +25,10 @@ RUN yum install -y \
     fftw-devel \
     mpich \
     mpich-devel \
-    git
+    git \
+    mesa-libGL \
+    mesa-libGL-devel \
+    groupinstall "X Window System"
 
 # enable the Developer Toolset 6
 RUN scl enable devtoolset-6 bash
