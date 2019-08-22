@@ -1,13 +1,4 @@
-FROM scratch
-ADD centos-7-docker.tar.xz /
-
-LABEL org.label-schema.schema-version="1.0" \
-    org.label-schema.name="CentOS Base Image" \
-    org.label-schema.vendor="CentOS" \
-    org.label-schema.license="GPLv2" \
-    org.label-schema.build-date="20181204"
-
-CMD ["/bin/bash"]
+FROM centos:7
 
 LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 
@@ -48,3 +39,5 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.r
 RUN git clone https://github.com/CBICA/CaPTk.git \
     git lfs pull --include "binaries/precompiledApps/linux.zip" \
     git lfs pull --include "binaries/qt_5.12.1/linux.zip"
+
+ENTRYPOINT [ "/bin/bash" ]
