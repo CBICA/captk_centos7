@@ -27,8 +27,6 @@ RUN yum install -y \
     fftw-devel \
     mpich \
     mpich-devel \
-    epel-release \
-    git \
     mesa-libGL \
     mesa-libGL-devel \
     xorg-x11-server-Xorg \
@@ -39,9 +37,10 @@ RUN yum install -y \
 RUN scl enable devtoolset-6 bash
 
 # LFS install
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash 
-
-RUN git lfs install \
+RUN yum install -y epel-release git; \
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash; \
+    yum install git-lfs; \
+    git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
 # clone CaPTk and LFS files
