@@ -33,7 +33,18 @@ RUN yum install -y \
     fftw-devel \
     mpich \
     mpich-devel \
-    wget
+    git
 
 # enable the Developer Toolset 6
 RUN scl enable devtoolset-6 bash
+
+# LFS install
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash \
+    yum install git-lfs \
+    git lfs install \
+    export GIT_LFS_SKIP_SMUDGE=1
+
+# clone CaPTk and LFS files
+RUN git clone https://github.com/CBICA/CaPTk.git \
+    git lfs pull --include "binaries/precompiledApps/linux.zip" \
+    git lfs pull --include "binaries/qt_5.12.1/linux.zip"
