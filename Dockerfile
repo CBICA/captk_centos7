@@ -11,9 +11,8 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 #general dependencies
 RUN yum install -y \
     sudo \
-    epel-release \
-    yum-utils \
     devtoolset-6 \
+    yum-utils \
     wget \
     cmake \
     git-core \
@@ -28,6 +27,7 @@ RUN yum install -y \
     fftw-devel \
     mpich \
     mpich-devel \
+    epel-release \
     git \
     mesa-libGL \
     mesa-libGL-devel \
@@ -39,9 +39,7 @@ RUN yum install -y \
 RUN scl enable devtoolset-6 bash
 
 # LFS install
-RUN yum install -y \
-    epel-release \
-    git-lfs 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash 
 
 RUN git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
