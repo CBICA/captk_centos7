@@ -29,6 +29,7 @@ RUN yum install -y \
     git \
     mesa-libGL \
     mesa-libGL-devel \
+    groupinstall \
     groupinstall "X Window System"
 
 # enable the Developer Toolset 6
