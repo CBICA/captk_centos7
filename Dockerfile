@@ -44,7 +44,7 @@ RUN yum install -y epel-release git; \
     export GIT_LFS_SKIP_SMUDGE=1
 
 # download relevant files
-RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O precompiledApps.zip
+RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
 
 RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
 
