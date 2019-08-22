@@ -31,7 +31,8 @@ RUN yum install -y \
     mesa-libGL-devel \
     xorg-x11-server-Xorg \
     xorg-x11-xauth \
-    xorg-x11-apps 
+    xorg-x11-apps \
+    time
 
 # enable the Developer Toolset 6
 RUN scl enable devtoolset-6 bash
@@ -43,9 +44,14 @@ RUN yum install -y epel-release git; \
     git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
+RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
+    cd CaPTk; \
+    time git lfs pull --include "binaries/precompiledApps/linux.zip"; \
+    time git lfs pull --include "binaries/precompiledApps/linux.zip"
+    
 # download relevant files
-RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
+RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
 
-RUN wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
+RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
 
 ENTRYPOINT [ "/bin/bash" ]
