@@ -24,7 +24,6 @@ RUN yum install -y \
     git-core \
     lapack \
     lapack-devel \
-    qt \
     unzip \
     tcl \
     tcl-devel \
@@ -33,7 +32,8 @@ RUN yum install -y \
     fftw \
     fftw-devel \
     mpich \
-    mpich-devel
+    mpich-devel \
+    wget
 
 # enable the Developer Toolset 6
 RUN scl enable devtoolset-6 bash
