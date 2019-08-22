@@ -11,6 +11,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 #general dependencies
 RUN yum install -y \
     sudo \
+    epel-release \
     yum-utils \
     devtoolset-6 \
     wget \
@@ -38,8 +39,11 @@ RUN yum install -y \
 RUN scl enable devtoolset-6 bash
 
 # LFS install
-RUN yum install git-lfs \
-    git lfs install \
+RUN yum install -y \
+    epel-release \
+    git-lfs 
+
+RUN git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
 # clone CaPTk and LFS files
