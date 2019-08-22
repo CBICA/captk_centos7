@@ -29,8 +29,9 @@ RUN yum install -y \
     git \
     mesa-libGL \
     mesa-libGL-devel \
-    groupinstall \
-    groupinstall "X Window System"
+    xorg-x11-server-Xorg \
+    xorg-x11-xauth \
+    xorg-x11-apps 
 
 # enable the Developer Toolset 6
 RUN scl enable devtoolset-6 bash
