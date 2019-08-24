@@ -63,6 +63,10 @@ RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux
 # nodejs is needed for azure
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash; \
     curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -; \
-    yum install -y nodejs; \
+    yum install -y nodejs
     #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash; \
     #nvm install -y node; \
+
+RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
+    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
+    export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
