@@ -67,6 +67,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | b
     #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash; \
     #nvm install -y node; \
 
+# cmake installation
 RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
     export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
