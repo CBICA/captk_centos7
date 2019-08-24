@@ -46,10 +46,10 @@ RUN yum install -y epel-release git; \
     git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
-RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
-    cd CaPTk; \
-    time git lfs pull --include "binaries/precompiledApps/linux.zip"; \
-    time git lfs pull --include "binaries/precompiledApps/linux.zip"
+# RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
+#     cd CaPTk; \
+#     time git lfs pull --include "binaries/precompiledApps/linux.zip"; \
+#     time git lfs pull --include "binaries/precompiledApps/linux.zip"
     
 # download relevant files
 RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
