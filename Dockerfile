@@ -3,6 +3,8 @@ FROM centos:7
 LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 
 #update
+RUN yum -y update bash
+
 RUN yum update -y
 
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
@@ -54,4 +56,12 @@ RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps
 
 RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
 
-ENTRYPOINT [ "/bin/bash" ]
+# ensuring azure requirements are met: : https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops&tabs=yaml#linux-based-containers
+# # apparently, this messes up azure
+# ENTRYPOINT [ "/bin/bash" ]
+
+# nodejs is needed for azure
+RUN curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -; \
+    yum install -y nodejs; \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash; \
+    nvm install -y node; \
