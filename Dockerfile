@@ -13,9 +13,10 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 #general dependencies
 RUN yum install -y \
     sudo \
-    devtoolset-3 \
-    devtoolset-3-gcc-c++ \
-    devtoolset-3-gcc \
+    devtoolset-6 \
+    devtoolset-6-gcc-c++ \
+    devtoolset-6-gcc \
+    devtoolset-6-g++ \
     yum-utils \
     wget \
     cmake \
@@ -39,7 +40,7 @@ RUN yum install -y \
     time
 
 # enable the Developer Toolset 6
-RUN scl enable devtoolset-3 bash
+RUN scl enable devtoolset-6 bash
 
 # LFS install
 RUN yum install -y epel-release git; \
