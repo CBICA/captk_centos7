@@ -55,8 +55,8 @@ RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4
 
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-    yum install -y devtoolset-3; \
-    scl enable devtoolset-3 bash
+    yum install -y devtoolset-6; \
+    scl enable devtoolset-6 bash
 
 # LFS install
 RUN yum install -y epel-release git; \
