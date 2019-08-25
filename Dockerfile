@@ -46,6 +46,9 @@ RUN yum install -y epel-release git; \
     git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
 
+RUN yum install -y devtoolset-3-gcc-c++ \
+    devtoolset-3-gcc
+
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
 #     cd CaPTk; \
 #     time git lfs pull --include "binaries/precompiledApps/linux.zip"; \
