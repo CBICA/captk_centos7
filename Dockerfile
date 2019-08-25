@@ -37,10 +37,21 @@ RUN yum install -y \
     xorg-x11-server-Xorg \
     xorg-x11-xauth \
     xorg-x11-apps \
-    time
+    time \
+    libmpc-devel \
+    mpfr-devel \
+    gmp-devel
 
 # enable the Developer Toolset 6
 #RUN scl enable devtoolset-6 bash
+
+# trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
+RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
+    tar xvfj gcc-4.9.2.tar.bz2; \
+    cd gcc-4.9.2; \
+    ./configure --disable-multilib --enable-languages=c,c++; \
+    make -j2; \
+    make install
 
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
