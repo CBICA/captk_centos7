@@ -13,7 +13,9 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 #general dependencies
 RUN yum install -y \
     sudo \
-    devtoolset-6 \
+    devtoolset-3 \
+    devtoolset-3-gcc-c++ \
+    devtoolset-3-gcc \
     yum-utils \
     wget \
     cmake \
@@ -37,7 +39,7 @@ RUN yum install -y \
     time
 
 # enable the Developer Toolset 6
-RUN scl enable devtoolset-6 bash
+RUN scl enable devtoolset-3 bash
 
 # LFS install
 RUN yum install -y epel-release git; \
@@ -45,9 +47,6 @@ RUN yum install -y epel-release git; \
     yum install -y git-lfs; \
     git lfs install \
     export GIT_LFS_SKIP_SMUDGE=1
-
-RUN yum install -y devtoolset-3-gcc-c++ \
-    devtoolset-3-gcc
 
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
 #     cd CaPTk; \
@@ -75,6 +74,8 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
     export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
 
-# testing cmake
-RUN gcc --verion; \
+RUN cmake --version
+
+# testing gcc
+RUN gcc --version; \
     g++ --version
