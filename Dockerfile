@@ -18,7 +18,9 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     yum install -y devtoolset-6; \
     yum install -y devtoolset-6-gcc*; \
     scl enable devtoolset-6 bash; \
-    echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
+    gcc --version; \
+    g++ version; \
+    echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
     # printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
   	# chmod +x /etc/profile.d/enabldevtoolset-6.sh
 
@@ -95,8 +97,8 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
     echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
 
-RUN cmake --version
-
-# testing gcc
-RUN gcc --version; \
+# tests
+RUN source ~/.bashrc; \
+    cmake --version; \
+    gcc --version; \
     g++ --version
