@@ -11,7 +11,7 @@ RUN yum update -y
 
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
 RUN yum install -y centos-release-scl-rh wget && \
-    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb" && \
+    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb devtoolset-6-toolchain" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
@@ -32,20 +32,6 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
 
 ENV HOME=/opt/app-root/src \
     PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/     
-
-# dev toolset 6
-RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
-    rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-    yum install -y devtoolset-6 \
-    devtoolset-6-gcc \
-    devtoolset-6-gcc-c++ \
-    devtoolset-6-toolchain; \
-    scl enable devtoolset-6 bash; \
-    gcc --version; \
-    g++ --version
-    # echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
-    # printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
-  	# chmod +x /etc/profile.d/enabldevtoolset-6.sh
 
 #general dependencies
 RUN yum install -y \
