@@ -22,7 +22,7 @@ jobs:
       fetchDepth: 1  # the depth of commits to ask Git to fetch; defaults to no limit
 
     - task: Docker@1 
-      displayName: 'Build an image'
+      displayName: 'Build the Image'
       inputs:
         containerregistrytype: 'container Registry'
         dockerRegistryEndpoint: sarthakpatiDockerHub
