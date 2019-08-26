@@ -21,7 +21,7 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     devtoolset-6-toolchain; \
     scl enable devtoolset-6 bash; \
     gcc --version; \
-    g++ version; \
+    g++ --version; \
     echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
     # printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
   	# chmod +x /etc/profile.d/enabldevtoolset-6.sh
