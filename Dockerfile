@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:devtoolset-7-toolchain-centos7
 
 LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 
@@ -10,17 +10,17 @@ RUN yum update -y
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
-# dev toolset 6
-RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
-    rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-    yum install -y devtoolset-6; \
-    scl enable devtoolset-6 bash
+# # dev toolset 6
+# RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
+#     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
+#     yum install -y devtoolset-6; \
+#     scl enable devtoolset-6 bash
 
 #general dependencies
 RUN yum install -y \
     sudo \
-    devtoolset-6 \
-    devtoolset-6-gcc* \
+    #devtoolset-6 \
+    #devtoolset-6-gcc* \
     gcc \
     gcc-c++ \
     yum-utils \
@@ -60,8 +60,7 @@ RUN yum install -y \
 RUN yum install -y epel-release git; \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash; \
     yum install -y git-lfs; \
-    git lfs install \
-    export GIT_LFS_SKIP_SMUDGE=1
+    git lfs install 
 
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
 #     cd CaPTk; \
@@ -86,8 +85,10 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | b
 
 # cmake installation
 RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
-    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
-    export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
+    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz
+
+ENV PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
+ENV GIT_LFS_SKIP_SMUDGE=1
 
 RUN cmake --version
 
