@@ -65,7 +65,8 @@ RUN yum install -y \
 RUN yum install -y epel-release git; \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash; \
     yum install -y git-lfs; \
-    git lfs install 
+    git lfs install; \
+    echo 'export GIT_LFS_SKIP_SMUDGE=1' >> ~/.bashrc
 
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
 #     cd CaPTk; \
@@ -90,10 +91,8 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | b
 
 # cmake installation
 RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
-    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz
-
-ENV PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH
-ENV GIT_LFS_SKIP_SMUDGE=1
+    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
+    echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
 
 RUN cmake --version
 
