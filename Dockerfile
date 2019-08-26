@@ -1,4 +1,4 @@
-FROM centos:devtoolset-7-toolchain-centos7
+FROM centos:7
 
 LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 
@@ -7,14 +7,17 @@ RUN yum -y update bash
 
 RUN yum update -y
 
+RUN yum update -y scl-utils
+
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
-# # dev toolset 6
-# RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
-#     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-#     yum install -y devtoolset-6; \
-#     scl enable devtoolset-6 bash
+# dev toolset 6
+RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
+    rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
+    yum install -y devtoolset-6; \
+    scl enable devtoolset-6 bash; \
+    echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
 
 #general dependencies
 RUN yum install -y \
