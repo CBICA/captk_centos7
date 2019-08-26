@@ -38,7 +38,7 @@ jobs:
         command: login
 
     - task: Docker@1
-      displayName: 'Push an image'
+      displayName: 'Push the Image'
       inputs:
         command: push an image
         imageName: 'cbica/captk_centos7:latest'  
