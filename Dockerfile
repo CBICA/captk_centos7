@@ -10,7 +10,7 @@ RUN yum update -y
 # RUN yum update -y scl-utils
 
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
-RUN yum install -y centos-release-scl-rh && \
+RUN yum install -y centos-release-scl-rh wget && \
     INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
@@ -24,6 +24,14 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
 # RUN touch '~/.bashrc'
+
+# cmake installation
+RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
+    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
+    echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
+
+ENV HOME=/opt/app-root/src \
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/
 
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
@@ -106,14 +114,6 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | b
     yum install -y nodejs
     #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash; \
     #nvm install -y node; \
-
-# cmake installation
-RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
-    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
-    echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
-
-ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/
 
 # tests
 RUN cmake --version; \
