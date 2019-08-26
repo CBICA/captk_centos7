@@ -15,8 +15,7 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-    yum install -y devtoolset-6; \
-    yum install -y devtoolset-6-gcc*; \
+    yum install -y devtoolset-6 devtoolset-6-toolchain; \
     scl enable devtoolset-6 bash; \
     gcc --version; \
     g++ version; \
