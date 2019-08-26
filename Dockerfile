@@ -17,7 +17,7 @@ RUN yum install -y centos-release-scl-rh && \
     yum -y clean all --enablerepo='*'
 
 # Copy extra files to the image.
-COPY ./root/ /
+# COPY ./root/ /
 
 ENV HOME=/opt/app-root/src \
     PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
