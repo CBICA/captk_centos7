@@ -54,6 +54,7 @@ RUN yum install -y \
     #devtoolset-6-gcc* \
     # gcc \
     # gcc-c++ \
+    make \
     yum-utils \
     wget \
     cmake \
@@ -112,12 +113,17 @@ RUN yum install -y \
 
 # nodejs is needed for azure
 RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash; \
-    curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -; \
+    #curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -; \
+    curl -sL https://rpm.nodesource.com/setup | bash -; \
     yum install -y nodejs
     #curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash; \
     #nvm install -y node; \
 
+ENV NVM_DIR="$HOME/.nvm"
+
 # tests
 RUN cmake --version; \
     gcc --version; \
-    g++ --version
+    g++ --version; \
+    node -v; \
+    npm -v
