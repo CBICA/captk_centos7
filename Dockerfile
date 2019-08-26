@@ -20,6 +20,7 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
 RUN yum install -y \
     sudo \
     devtoolset-6 \
+    devtoolset-6-gcc* \
     gcc \
     gcc-c++ \
     yum-utils \
