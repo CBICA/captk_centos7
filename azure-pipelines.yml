@@ -8,7 +8,7 @@ jobs:
 - job: 'DockerBuild'
   displayName: "End-to-end Docker image build and push"
   timeoutInMinutes: 0
-  cancelTimeoutInMinutes: 300
+  cancelTimeoutInMinutes: 360
 
   variables:
     dockerId: cbica
