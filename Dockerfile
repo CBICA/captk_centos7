@@ -19,14 +19,11 @@ RUN yum install -y centos-release-scl-rh && \
 # Copy extra files to the image.
 # COPY ./root/ /
 
-ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
 
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
-RUN touch '~/.bashrc'
+# RUN touch '~/.bashrc'
 
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
@@ -38,7 +35,7 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     scl enable devtoolset-6 bash; \
     gcc --version; \
     g++ --version; \
-    echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
+    # echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
     # printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
   	# chmod +x /etc/profile.d/enabldevtoolset-6.sh
 
@@ -95,9 +92,9 @@ RUN yum install -y epel-release git; \
 #     time git lfs pull --include "binaries/precompiledApps/linux.zip"
     
 # download relevant files
-RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
+# RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip
 
-RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
+# RUN time wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip
 
 # ensuring azure requirements are met: : https://docs.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops&tabs=yaml#linux-based-containers
 # # apparently, this messes up azure
@@ -115,8 +112,10 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
     echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
 
+ENV HOME=/opt/app-root/src \
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/
+
 # tests
-RUN source ~/.bashrc; \
-    cmake --version; \
+RUN cmake --version; \
     gcc --version; \
     g++ --version
