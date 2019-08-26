@@ -32,6 +32,7 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
 
 ENV HOME=/opt/app-root/src \
     PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/
+    GIT_LFS_SKIP_SMUDGE=1
 
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
@@ -92,7 +93,7 @@ RUN yum install -y epel-release git; \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash; \
     yum install -y git-lfs; \
     git lfs install; \
-    echo 'export GIT_LFS_SKIP_SMUDGE=1' >> ~/.bashrc
+    # echo 'export GIT_LFS_SKIP_SMUDGE=1' >> ~/.bashrc
 
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
 #     cd CaPTk; \
