@@ -26,6 +26,8 @@ ENV HOME=/opt/app-root/src \
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
+RUN touch ~/bashrc
+
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
@@ -36,7 +38,6 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     scl enable devtoolset-6 bash; \
     gcc --version; \
     g++ --version; \
-    touch ~/.bashrc; \
     echo 'scl enable devtoolset-6 bash' >> ~/.bashrc
     # printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
   	# chmod +x /etc/profile.d/enabldevtoolset-6.sh
