@@ -10,13 +10,18 @@ RUN yum update -y
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
+# dev toolset 6
+RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
+    rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
+    yum install -y devtoolset-6; \
+    scl enable devtoolset-6 bash
+
 #general dependencies
 RUN yum install -y \
     sudo \
-    #devtoolset-6 \
-    #devtoolset-6-gcc-c++ \
-    #devtoolset-6-gcc \
-    #devtoolset-6-g++ \
+    devtoolset-6 \
+    gcc \
+    gcc-c++ \
     yum-utils \
     wget \
     cmake \
@@ -42,21 +47,13 @@ RUN yum install -y \
     mpfr-devel \
     gmp-devel
 
-# enable the Developer Toolset 6
-#RUN scl enable devtoolset-6 bash
-
-# trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
-RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
-    tar xvfj gcc-4.9.2.tar.bz2; \
-    cd gcc-4.9.2; \
-    ./configure --disable-multilib --enable-languages=c,c++; \
-    make -j2; \
-    make install
-
-RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
-    rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
-    yum install -y devtoolset-6; \
-    scl enable devtoolset-6 bash
+## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
+#RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
+#    tar xvfj gcc-4.9.2.tar.bz2; \
+#    cd gcc-4.9.2; \
+#    ./configure --disable-multilib --enable-languages=c,c++; \
+#    make -j2; \
+#    make install
 
 # LFS install
 RUN yum install -y epel-release git; \
