@@ -31,7 +31,7 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
 
 ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/ \
     GIT_LFS_SKIP_SMUDGE=1
 
 # dev toolset 6
