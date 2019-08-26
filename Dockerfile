@@ -1,4 +1,4 @@
-FROM centos:devtoolset-6-toolchain-centos7
+FROM rhscl:devtoolset-6-toolchain-centos7
 
 LABEL authors="CBICA_UPenn (software@cbica.upenn.edu)"
 
