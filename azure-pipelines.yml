@@ -21,21 +21,24 @@ jobs:
     - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
       fetchDepth: 1  # the depth of commits to ask Git to fetch; defaults to no limit
 
-    - task: Docker@1
-      displayName: Login to Docker Hub
+    - task: Docker@1 
+      displayName: 'Build an image'
       inputs:
+        containerregistrytype: 'container Registry'
+        dockerRegistryEndpoint: sarthakpatiDockerHub
+        imageName: 'cbica/captk_centos7:$(Build.BuildId)'
+        command: build an image
+        dockerFile: '**/Dockerfile'
+
+    - task: Docker@1
+      displayName: Login
+      inputs:
+        containerregistrytype: 'container Registry'
+        dockerRegistryEndpoint: sarthakpatiDockerHub
         command: login
-        containerRegistry: dockerRegistryServiceConnection1
+        
     - task: Docker@1
-      displayName: Build and Push
+      displayName: 'Push an image'
       inputs:
-        command: buildAndPush
-        repository: cbica/captk_centos7
-        tags: latest
-    
-    - script: |
-        docker build -t $(dockerId)/$(imageName) .
-        docker login -u $(dockerId) -p $(pswd)
-        docker push $(dockerId)/$(imageName)
-      env:
-        pswd: $(dockerPassword)
+        command: push an image
+        imageName: 'cbica/captk_centos7:$(Build.BuildId)'  
