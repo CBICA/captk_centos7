@@ -92,7 +92,7 @@ RUN yum install -y \
 RUN yum install -y epel-release git; \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash; \
     yum install -y git-lfs; \
-    git lfs install; \
+    git lfs install
     # echo 'export GIT_LFS_SKIP_SMUDGE=1' >> ~/.bashrc
 
 # RUN time git clone https://github.com/CBICA/CaPTk.git --depth 1;\
