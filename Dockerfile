@@ -7,7 +7,7 @@ RUN yum -y update bash
 
 RUN yum update -y
 
-RUN yum update -y scl-utils
+# RUN yum update -y scl-utils
 
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
@@ -17,7 +17,8 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     rpm --import http://ftp.mirrorservice.org/sites/ftp.scientificlinux.org/linux/scientific/obsolete/51/i386/RPM-GPG-KEYs/RPM-GPG-KEY-cern; \
     yum install -y devtoolset-6; \
     scl enable devtoolset-6 bash; \
-    echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
+    # echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
+    echo 'scl enable devtoolset-6 bash' >> /etc/profile.d/enabldevtoolset-6.sh
 
 #general dependencies
 RUN yum install -y \
