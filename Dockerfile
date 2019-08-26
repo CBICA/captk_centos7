@@ -1,4 +1,4 @@
-FROM centos:devtoolset-6-toolchain-centos7
+FROM centos:7
 
 LABEL authors="CBICA_UPenn <software@cbica.upenn.edu>"
 
@@ -8,6 +8,20 @@ RUN yum -y update bash
 RUN yum update -y
 
 # RUN yum update -y scl-utils
+
+# taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
+RUN yum install -y centos-release-scl-rh && \
+    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb" && \
+    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    yum -y clean all --enablerepo='*'
+
+# Copy extra files to the image.
+COPY ./root/ /
+
+ENV HOME=/opt/app-root/src \
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
