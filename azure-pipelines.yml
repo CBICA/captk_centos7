@@ -20,6 +20,18 @@ jobs:
   steps:
     - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
       fetchDepth: 1  # the depth of commits to ask Git to fetch; defaults to no limit
+
+    - task: Docker@1
+      displayName: Login to Docker Hub
+      inputs:
+        command: login
+        containerRegistry: dockerRegistryServiceConnection1
+    - task: Docker@1
+      displayName: Build and Push
+      inputs:
+        command: buildAndPush
+        repository: cbica/captk_centos7
+        tags: latest
     
     - script: |
         docker build -t $(dockerId)/$(imageName) .
