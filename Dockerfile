@@ -18,7 +18,8 @@ RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6
     yum install -y devtoolset-6; \
     scl enable devtoolset-6 bash; \
     # echo 'source scl_source enable devtoolset-6' >> ~/.bashrc
-    echo 'scl enable devtoolset-6 bash' >> /etc/profile.d/enabldevtoolset-6.sh
+    printf "#! /bin/bash\n\nscl enable devtoolset-6 bash\n" > /etc/profile.d/enabldevtoolset-6.sh; \
+  	chmod +x /etc/profile.d/enabldevtoolset-6.sh
 
 #general dependencies
 RUN yum install -y \
