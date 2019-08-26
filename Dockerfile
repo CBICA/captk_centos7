@@ -26,7 +26,7 @@ ENV HOME=/opt/app-root/src \
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
-RUN touch ~/bashrc
+RUN touch '~/.bashrc'
 
 # dev toolset 6
 RUN curl http://linuxsoft.cern.ch/cern/scl/slc6-scl.repo > /etc/yum.repos.d/slc6-scl.repo; \
