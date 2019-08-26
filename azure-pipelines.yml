@@ -26,7 +26,7 @@ jobs:
       inputs:
         containerregistrytype: 'container Registry'
         dockerRegistryEndpoint: sarthakpatiDockerHub
-        imageName: 'cbica/captk_centos7:latest_azure'
+        imageName: 'cbica/captk_centos7:latest'
         command: build an image
         dockerFile: '**/Dockerfile'
 
@@ -41,4 +41,4 @@ jobs:
       displayName: 'Push an image'
       inputs:
         command: push an image
-        imageName: 'cbica/captk_centos7:latest_azure'  
+        imageName: 'cbica/captk_centos7:latest'  
