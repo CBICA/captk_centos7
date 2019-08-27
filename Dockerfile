@@ -11,7 +11,7 @@ RUN yum update -y
 
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
 RUN yum install -y centos-release-scl-rh wget && \
-    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb devtoolset-6-toolchain" && \
+    INSTALL_PKGS="devtoolset-3-gcc devtoolset-3-gcc-c++ devtoolset-3-gcc-gfortran devtoolset-3-gdb devtoolset-3-toolchain" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
@@ -31,13 +31,13 @@ RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
     echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
 
 ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-6/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/     
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-3/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`pwd`/cmake-3.12.4-Linux-x86_64/bin/     
 
 #general dependencies
 RUN yum install -y \
     sudo \
-    #devtoolset-6 \
-    #devtoolset-6-gcc* \
+    #devtoolset-3 \
+    #devtoolset-3-gcc* \
     # gcc \
     # gcc-c++ \
     make \
