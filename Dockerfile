@@ -57,7 +57,8 @@ RUN yum install -y \
     time \
     libmpc-devel \
     mpfr-devel \
-    gmp-devel
+    gmp-devel \
+    doxygen
 
 ## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
 #RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
