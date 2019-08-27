@@ -7,8 +7,6 @@ RUN yum -y update bash
 
 RUN yum update -y
 
-# RUN yum update -y scl-utils
-
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
 RUN yum install -y centos-release-scl-rh wget && \
     INSTALL_PKGS="devtoolset-3-gcc devtoolset-3-gcc-c++ devtoolset-3-gcc-gfortran devtoolset-3-gdb devtoolset-3-toolchain" && \
@@ -16,22 +14,15 @@ RUN yum install -y centos-release-scl-rh wget && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
 
-# Copy extra files to the image.
-# COPY ./root/ /
-
-
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
 
-# RUN touch '~/.bashrc'
-
 # cmake installation
-RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
-    tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
-    echo 'export PATH=`pwd`/cmake-3.12.4-Linux-x86_64/bin/:$PATH' >> ~/.bashrc
+# RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
+#     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
 
 ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-3/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/cmake-3.12.4-Linux-x86_64/bin/     
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-3/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #general dependencies
 RUN yum install -y \
@@ -109,9 +100,9 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | b
 
 ENV NVM_DIR="$HOME/.nvm"
 
-# tests
-RUN cmake --version; \
-    gcc --version; \
-    g++ --version; \
-    node -v; \
-    npm -v
+# # tests
+# RUN cmake --version; \
+#     gcc --version; \
+#     g++ --version; \
+#     node -v; \
+#     npm -v
