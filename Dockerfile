@@ -9,7 +9,7 @@ RUN yum update -y
 
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
 RUN yum install -y centos-release-scl-rh wget && \
-    INSTALL_PKGS="devtoolset-5-gcc devtoolset-5-gcc-c++ devtoolset-5-gcc-gfortran devtoolset-5-gdb devtoolset-5-toolchain" && \
+    INSTALL_PKGS="devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran devtoolset-4-gdb devtoolset-4-toolchain" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
@@ -22,13 +22,13 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 #     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
 
 ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-5/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-4/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #general dependencies
 RUN yum install -y \
     sudo \
-    #devtoolset-5 \
-    #devtoolset-5-gcc* \
+    #devtoolset-4 \
+    #devtoolset-4-gcc* \
     # gcc \
     # gcc-c++ \
     make \
