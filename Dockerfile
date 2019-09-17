@@ -105,12 +105,12 @@ RUN \
   #
   yum clean all
   
-# taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
-RUN yum install -y centos-release-scl-rh wget && \
-    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb devtoolset-6-toolchain" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    yum -y clean all --enablerepo='*'
+# # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
+# RUN yum install -y centos-release-scl-rh wget && \
+#     INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb devtoolset-6-toolchain" && \
+#     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+#     rpm -V $INSTALL_PKGS && \
+#     yum -y clean all --enablerepo='*'
 
 RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
     yum -y install centos-release-scl
@@ -119,8 +119,8 @@ RUN rpmkeys --import file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
 # RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.tar.gz; \
 #     tar -xf cmake-3.12.4-Linux-x86_64.tar.gz; \
 
-ENV HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-4/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# ENV HOME=/opt/app-root/src \
+#     PATH=/opt/app-root/src/bin:/opt/app-root/bin:/opt/rh/devtoolset-4/root/usr/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #general dependencies
 RUN yum install -y \
@@ -161,7 +161,7 @@ RUN yum install -y \
 RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
     mkdir /opt/cmake; \
     sh cmake-3.12.4-Linux-x86_64.sh --prefix=/opt/cmake --skip-license; \
-    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+    ln -s /opt/cmake/bin/cmake /usr/bin/cmake
 
 # setting up the build environment
 ARG GIT_LFS_SKIP_SMUDGE=1
@@ -179,7 +179,7 @@ RUN cd CaPTk &&  git pull; \
 RUN cd CaPTk/bin && echo "=== Starting CaPTk Superbuild ===" && \
     if [ ! -d "`pwd`/externalApps" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip; fi ; \
     if [ ! -d "`pwd`/qt" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip; fi ; \
-    cmake -DCMAKE_INSTALL_PREFIX=./install_libs -Wno-dev .. && make -j2
+    cmake -DCMAKE_INSTALL_PREFIX=./install_libs -DQT_DOWNLOAD_FORCE=OFF -Wno-dev .. && make -j2
 
 ## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
 #RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
