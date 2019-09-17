@@ -1,15 +1,113 @@
-FROM centos:7
+FROM dockbuild/centos7-devtoolset4-gcc5:latest
 
 LABEL authors="CBICA_UPenn <software@cbica.upenn.edu>"
+
+ARG IMAGE
+ENV DEFAULT_DOCKCROSS_IMAGE=${IMAGE}
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ADD qt-installer-noninteractive.qs /usr/src/qt-installer-noninteractive.qs
 
 #update
 RUN yum -y update bash
 
 RUN yum update -y
 
+# qt installation
+RUN \
+  #
+  # Qt dependencies:
+  #
+  # * https://doc.qt.io/qt-5/linux-requirements.html
+  # * https://doc.qt.io/qt-5/supported-platforms-and-configurations.html#qt-5-11
+  #
+  # IMPORTANT:
+  #
+  # * dependencies of Qt5MultimediaGstTools are not installed. These are
+  #   "gstreamer1-plugins-good" and "gstreamer1-plugins-base" along with
+  #   all video and image codecs.
+  #
+  yum install -y \
+    flex \
+    fontconfig \
+    freetype \
+    glib2 \
+    libICE \
+    libX11 \
+    libxcb \
+    libXext \
+    libXi \
+    libXrender \
+    libSM \
+    libXt-devel \
+    libGLU-devel \
+    mesa-libOSMesa-devel \
+    mesa-libGL-devel \
+    mesa-libGLU-devel \
+    xcb-util-keysyms \
+    xcb-util-image \
+  && \
+  #
+  # libQt5WebEngineCore
+  # * alsa-lib provides libasound.so.2
+  yum install -y \
+    alsa-lib \
+    libXcomposite \
+    libXcursor \
+    libXrandr \
+    libXtst \
+    mesa-libEGL \
+  && \
+  #
+  # libQt5Multimedia
+  # * pulseaudio-libs-glib2 provides libpulse-mainloop-glib.so.0
+  # * pulseaudio-libs provides libpulse.so.0
+  #
+  yum install -y \
+    pulseaudio-libs \
+    pulseaudio-libs-glib2 \
+  && \
+  #
+  # Slicer dependencies
+  #
+  yum install -y \
+    subversion \
+  && \
+  #
+  # SlicerJupyter dependencies
+  #
+  yum install -y \
+    libuuid-devel \
+  && \
+  #
+  # Download and install Qt
+  #
+  cd /usr/src && \
+  curl -LO http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run && \
+  chmod u+x qt-unified-linux-x64-online.run && \
+  ./qt-unified-linux-x64-online.run --verbose --platform minimal --script ./qt-installer-noninteractive.qs && \
+  rm -f qt-installer-noninteractive.qs qt-unified-linux-x64-online.run && \
+  #
+  # Cleanup
+  #
+  find /opt/qt -maxdepth 1 -type f -exec rm -rf "{}" \; && \
+  find /opt/qt -type f -name "*.debug" -delete && \
+  find /opt/qt/5.11.2/gcc_64/bin -type f -executable -exec strip {} \; && \
+  rm -rf \
+    /opt/qt/dist \
+    /opt/qt/Docs \
+    /opt/qt/Examples \
+    /opt/qt/Tools \
+  && \
+  #
+  # Cleanup
+  #
+  yum clean all
+  
 # taken from https://github.com/sclorg/devtoolset-container/blob/master/6-toolchain/Dockerfile
 RUN yum install -y centos-release-scl-rh wget && \
-    INSTALL_PKGS="devtoolset-4-gcc devtoolset-4-gcc-c++ devtoolset-4-gcc-gfortran devtoolset-4-gdb devtoolset-4-toolchain" && \
+    INSTALL_PKGS="devtoolset-6-gcc devtoolset-6-gcc-c++ devtoolset-6-gcc-gfortran devtoolset-6-gdb devtoolset-6-toolchain" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum -y clean all --enablerepo='*'
@@ -34,7 +132,6 @@ RUN yum install -y \
     make \
     yum-utils \
     wget \
-    cmake \
     git-core \
     lapack \
     lapack-devel \
@@ -59,6 +156,30 @@ RUN yum install -y \
     mpfr-devel \
     gmp-devel \
     doxygen
+
+# installing CMake
+RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
+    mkdir /opt/cmake; \
+    sh cmake-3.12.4-Linux-x86_64.sh --prefix=/opt/cmake --skip-license; \
+    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+
+# setting up the build environment
+ARG GIT_LFS_SKIP_SMUDGE=1
+ARG PKG_FAST_MODE=1
+ARG PKG_COPY_QT_LIBS=1
+ENV GIT_LFS_SKIP_SMUDGE=$GIT_LFS_SKIP_SMUDGE
+ENV PKG_FAST_MODE=$PKG_FAST_MODE
+ENV PKG_COPY_QT_LIBS=$PKG_COPY_QT_LIBS
+
+# cloning CaPTk
+RUN if [ ! -d "`pwd`/CaPTk" ] ; then git clone "https://github.com/CBICA/CaPTk.git"; fi 
+RUN cd CaPTk &&  git pull; \
+    git submodule update --init && mkdir bin
+
+RUN cd CaPTk/bin && echo "=== Starting CaPTk Superbuild ===" && \
+    if [ ! -d "`pwd`/externalApps" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/precompiledApps/linux.zip -O binaries_linux.zip; fi ; \
+    if [ ! -d "`pwd`/qt" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip; fi ; \
+    cmake -DCMAKE_INSTALL_PREFIX=./install_libs -Wno-dev .. && make -j2
 
 ## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
 #RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
