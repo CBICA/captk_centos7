@@ -47,6 +47,7 @@ RUN \
     mesa-libGLU-devel \
     xcb-util-keysyms \
     xcb-util-image \
+    p7zip \
   && \
   #
   # libQt5WebEngineCore
