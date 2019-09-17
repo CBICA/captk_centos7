@@ -55,7 +55,8 @@ RUN yum install -y \
     doxygen
 
 # installing CMake
-RUN wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
+RUN rm -rf /usr/bin/cmake; \
+    wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
     mkdir /opt/cmake; \
     sh cmake-3.12.4-Linux-x86_64.sh --prefix=/opt/cmake --skip-license; \
     ln -s /opt/cmake/bin/cmake /usr/bin/cmake
