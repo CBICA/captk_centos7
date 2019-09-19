@@ -61,7 +61,8 @@ RUN rm -rf /usr/bin/cmake; \
     wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
     mkdir /opt/cmake; \
     sh cmake-3.12.4-Linux-x86_64.sh --prefix=/opt/cmake --skip-license; \
-    ln -s /opt/cmake/bin/cmake /usr/bin/cmake
+    ln -s /opt/cmake/bin/cmake /usr/bin/cmake; \
+    rm -rf https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh
 
 # setting up the build environment
 ARG GIT_LFS_SKIP_SMUDGE=1
