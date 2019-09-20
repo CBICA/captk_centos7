@@ -54,6 +54,7 @@ RUN yum install -y \
     libmpc-devel \
     mpfr-devel \
     gmp-devel \
+    dos2unix \
     doxygen
 
 # installing CMake
