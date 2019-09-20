@@ -81,6 +81,11 @@ RUN cd CaPTk_Libs/bin && echo "=== Starting CaPTk Superbuild ===" && \
     if [ ! -d "`pwd`/qt" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip; fi ; \
     cmake -DCMAKE_INSTALL_PREFIX=./install_libs -DQT_DOWNLOAD_FORCE=OFF -Wno-dev .. && make -j2 && rm -rf qt.zip
 
+ARG CMAKE_PREFIX_PATH=`pwd`/CaPTk_Libs/bin/ITK-build:`pwd`/CaPTk_Libs/bin/DCMTK-build
+ENV CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
+ARG DCMTK_DIR=`pwd`/CaPTk_Libs/bin/DCMTK-build
+ENV DCMTK_DIR=$DCMTK_DIR
+
 ## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
 #RUN curl ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2 -O ;\
 #    tar xvfj gcc-4.9.2.tar.bz2; \
