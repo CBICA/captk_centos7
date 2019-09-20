@@ -73,17 +73,17 @@ ENV PKG_FAST_MODE=$PKG_FAST_MODE
 ENV PKG_COPY_QT_LIBS=$PKG_COPY_QT_LIBS
 
 # cloning CaPTk
-RUN if [ ! -d "`pwd`/CaPTk" ] ; then git clone "https://github.com/CBICA/CaPTk.git" CaPTk_Libs; fi 
-RUN cd CaPTk_Libs &&  git pull; \
+RUN if [ ! -d "`pwd`/CaPTk" ] ; then git clone "https://github.com/CBICA/CaPTk.git" CaPTk; fi 
+RUN cd CaPTk &&  git pull; \
     git submodule update --init && mkdir bin
 
-RUN cd CaPTk_Libs/bin && echo "=== Starting CaPTk Superbuild ===" && \
+RUN cd CaPTk/bin && echo "=== Starting CaPTk Superbuild ===" && \
     if [ ! -d "`pwd`/qt" ] ; then wget https://github.com/CBICA/CaPTk/raw/master/binaries/qt_5.12.1/linux.zip -O qt.zip; fi ; \
     cmake -DCMAKE_INSTALL_PREFIX=./install_libs -DQT_DOWNLOAD_FORCE=OFF -Wno-dev .. && make -j2 && rm -rf qt.zip
 
-ARG CMAKE_PREFIX_PATH=`pwd`/CaPTk_Libs/bin/ITK-build:`pwd`/CaPTk_Libs/bin/DCMTK-build
+ARG CMAKE_PREFIX_PATH=`pwd`/CaPTk/bin/ITK-build:`pwd`/CaPTk/bin/DCMTK-build
 ENV CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
-ARG DCMTK_DIR=`pwd`/CaPTk_Libs/bin/DCMTK-build
+ARG DCMTK_DIR=`pwd`/CaPTk/bin/DCMTK-build
 ENV DCMTK_DIR=$DCMTK_DIR
 
 ## trying to install using https://gist.github.com/craigminihan/b23c06afd9073ec32e0c
