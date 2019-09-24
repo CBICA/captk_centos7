@@ -57,6 +57,9 @@ RUN yum install -y \
     dos2unix \
     doxygen
 
+# installing FUSE
+RUN yum --enablerepo=epel -y install fuse-sshfs
+
 # installing CMake
 RUN rm -rf /usr/bin/cmake; \
     wget https://cmake.org/files/v3.12/cmake-3.12.4-Linux-x86_64.sh; \
