@@ -55,10 +55,8 @@ RUN yum install -y \
     mpfr-devel \
     gmp-devel \
     dos2unix \
+    fuse-sshfs \
     doxygen
-
-# installing FUSE
-RUN yum --enablerepo=epel -y install fuse-sshfs
 
 # installing CMake
 RUN rm -rf /usr/bin/cmake; \
