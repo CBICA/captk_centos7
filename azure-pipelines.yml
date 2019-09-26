@@ -12,7 +12,7 @@ jobs:
 
   variables:
     dockerId: cbica
-    imageName: captk_centos7
+    imageName: captk_centos7 
 
   pool:
     vmImage: 'Ubuntu-16.04'
